@@ -1,22 +1,13 @@
 import { action, ActionType } from "typesafe-actions";
 import * as actionTypes from "./actionTypes";
 import { ThunkDispatch } from "redux-thunk";
-import PokemonSdk, { PokemonSdkClient } from "Sdks/PokemonSdk"; 
+import PokemonSdk from "Sdks/PokemonSdk"; 
+import {Pokemon} from "./types.d"
+//Types
 
-interface FormattedPokemon {
-  baseExperience: number;
-  height: number;
-  weight: number;
-  id: number;
-  mainSprite: string | null;
-  name: string;
-  abilities: any;
-  types: any;
-  stats: any;
-}
 
 interface MainPayload {
-  [key: string]: FormattedPokemon
+  [key: string]: Pokemon.Formatted
 }
 
 //Action Creators
@@ -25,7 +16,7 @@ const addMainPokemon = (main: MainPayload) => {
   return action(actionTypes.addMain, main);
 }
 
-const setRandomPokemon = (pokemon: FormattedPokemon) => {
+const setRandomPokemon = (pokemon: Pokemon.Formatted) => {
   return action(actionTypes.setRandom, pokemon)
 }
 
@@ -58,12 +49,12 @@ export type PokemonActions = SetMainPokemon
 const fetchandSetPokemonById = (id: string, random?: boolean) => {
   return async (dispatch: ThunkDispatch<any, {}, PokemonActions>) => {
     const pokemonPromise = PokemonSdk.pokemon.getById(id);
-    let pokemon: FormattedPokemon;
+    let pokemon: Pokemon.Formatted;
     try{
       const pokemonResponse = await pokemonPromise;
       pokemon = formatPokemon(pokemonResponse)
     } catch(err){
-      dispatch(addError({id: err}));
+      dispatch(addError({...err, id: id}));
       return;
     }
     if(random){
@@ -92,7 +83,7 @@ const fetchRandomPokemon = () => {
 
 //Utils
 
-const formatPokemon = (response: any): FormattedPokemon => ({
+const formatPokemon = (response: any): Pokemon.Formatted => ({
   id: response.id,
   abilities: response.abilities,
   baseExperience: response.base_experience,
