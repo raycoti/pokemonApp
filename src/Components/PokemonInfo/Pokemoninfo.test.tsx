@@ -13,14 +13,14 @@ test('Renders correct info', () => {
       id: 4,
       name: "No. 0",
       baseExperience: 7,
-      sprite: "null"
+      sprite: null
   };
 
   const { queryByTestId } = renderInfoComponent({info});
 
-  expect(queryByTestId("info-name").textContent).toContain(info.name);
-  expect(queryByTestId("info-height").textContent).toContain(info.height);
-  expect(queryByTestId("info-weight").textContent).toContain(info.weight);
-  expect(queryByTestId("info-exp").textContent).toContain(info.baseExperience);
+  expect(queryByTestId("info-name")!.textContent).toContain(info.name);
+  expect(queryByTestId("info-height")!.textContent).toContain(info.height);
+  expect(queryByTestId("info-weight")!.textContent).toContain(info.weight);
+  expect(queryByTestId("info-exp")!.textContent).toContain(info.baseExperience);
 
 })

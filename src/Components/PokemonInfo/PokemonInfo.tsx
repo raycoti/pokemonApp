@@ -17,7 +17,7 @@ const PokemonInfo: React.FC<PokemonInfoI> = ({
   return (
     <div data-testid="info-div">
       <h1 data-testid="info-name">{info.name}</h1>
-      <img src={info.sprite ? info.sprite: ""} />
+      <img alt={info.name} src={info.sprite ? info.sprite: ""} />
       <p data-testid="info-height" >Height: {info.height}</p>
       <p data-testid="info-weight">Weight: {info.weight}</p>
       <p data-testid="info-exp">Exp: {info.baseExperience}</p>
