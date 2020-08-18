@@ -16,7 +16,6 @@ export class PokemonSdkClient {
 }
 
 const PokemonSdk = new PokemonSdkClient("https://pokeapi.co/api/v2");
+(window as any).pokemon = PokemonSdk;
 
 export default PokemonSdk;
-
-//1048 is max pokemon on api

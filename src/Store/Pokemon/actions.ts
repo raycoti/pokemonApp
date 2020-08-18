@@ -7,7 +7,7 @@ import {Pokemon} from "./types.d"
 
 
 interface MainPayload {
-  [key: string]: Pokemon.Formatted
+  [key: string]: Pokemon.attributes
 }
 
 //Action Creators
@@ -16,7 +16,7 @@ const addMainPokemon = (main: MainPayload) => {
   return action(actionTypes.addMain, main);
 }
 
-const setRandomPokemon = (pokemon: Pokemon.Formatted) => {
+const setRandomPokemon = (pokemon: Pokemon.attributes) => {
   return action(actionTypes.setRandom, pokemon)
 }
 
@@ -49,7 +49,7 @@ export type PokemonActions = SetMainPokemon
 const fetchandSetPokemonById = (id: string, random?: boolean) => {
   return async (dispatch: ThunkDispatch<any, {}, PokemonActions>) => {
     const pokemonPromise = PokemonSdk.pokemon.getById(id);
-    let pokemon: Pokemon.Formatted;
+    let pokemon: Pokemon.attributes;
     try{
       const pokemonResponse = await pokemonPromise;
       pokemon = formatPokemon(pokemonResponse)
@@ -60,7 +60,7 @@ const fetchandSetPokemonById = (id: string, random?: boolean) => {
     if(random){
       dispatch(setRandomPokemon(pokemon));
     } else{
-      dispatch(addMainPokemon({id: pokemon}))
+      dispatch(addMainPokemon({[id]: pokemon}))
     }
   }
 }
@@ -75,7 +75,7 @@ const fetchAndSetMainPokemon = () => {
 
 const fetchRandomPokemon = () => {
   return (dispatch: ThunkDispatch<any, {}, PokemonActions>) => {
-    const randomId = randomInteger(1, 1048).toString();
+    const randomId = randomInteger(1, 893).toString(); //current number of pkmn
     dispatch(fetchandSetPokemonById(randomId, true));
   }
 }
@@ -83,7 +83,7 @@ const fetchRandomPokemon = () => {
 
 //Utils
 
-const formatPokemon = (response: any): Pokemon.Formatted => ({
+const formatPokemon = (response: any): Pokemon.attributes => ({
   id: response.id,
   abilities: response.abilities,
   baseExperience: response.base_experience,

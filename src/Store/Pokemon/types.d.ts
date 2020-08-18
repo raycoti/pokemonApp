@@ -1,6 +1,6 @@
 export namespace Pokemon {
 
-  export interface Formatted{
+  export interface attributes{
     baseExperience: number;
     height: number;
     weight: number;
